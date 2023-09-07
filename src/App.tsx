@@ -1,5 +1,19 @@
+import { Routes, Route } from "react-router-dom";
+import { Container } from "react-bootstrap";
+import { Store } from "./pages/Store";
+import { NavBar } from "./components/Navbar";
+
 function App() {
-  return <h1>HELLO</h1>;
+  return (
+    <>
+      <NavBar />
+      <Container>
+        <Routes>
+          <Route path="/" element={<Store />} />
+        </Routes>
+      </Container>
+    </>
+  );
 }
 
 export default App;
