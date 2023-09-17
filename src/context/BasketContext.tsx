@@ -14,6 +14,10 @@ type BasketContext = {
   increaseBasketQuantity: (id: number) => void;
   decreaseBasketQuantity: (id: number) => void;
   removeFromBasket: (id: number) => void;
+  openBasket: () => void;
+  closeBasket: () => void;
+  basketQuantity: number;
+  basketItems: BasketItem[];
 };
 
 const BasketContext = createContext({} as BasketContext);
@@ -26,6 +30,7 @@ export function ShoppingBasketProvider({
   children,
 }: ShoppingBasketProviderProps) {
   const [basketItems, setBasketItems] = useState<BasketItem[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   function getItemQuantity(id: number) {
     return basketItems.find((item) => item.id === id)?.quantity || 0;
@@ -69,6 +74,14 @@ export function ShoppingBasketProvider({
     });
   }
 
+  const basketQuantity = basketItems.reduce(
+    (quantity, item) => item.quantity + quantity,
+    0
+  );
+
+  const openBasket = () => setIsOpen(true);
+  const closeBasket = () => setIsOpen(false);
+
   return (
     <BasketContext.Provider
       value={{
@@ -76,6 +89,10 @@ export function ShoppingBasketProvider({
         increaseBasketQuantity,
         decreaseBasketQuantity,
         removeFromBasket,
+        basketItems,
+        basketQuantity,
+        openBasket,
+        closeBasket,
       }}
     >
       {children}
