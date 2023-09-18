@@ -1,6 +1,7 @@
-import { Stack } from "react-bootstrap";
+import { Button, Stack } from "react-bootstrap";
 import { useShoppingBasket } from "../context/BasketContext";
 import products from "../data/products.json";
+import { Currency } from "../utilities/Currency";
 
 type BasketItemProps = {
   id: number;
@@ -27,7 +28,18 @@ export function BasketItem({ id, quantity }: BasketItemProps) {
             </span>
           )}
         </div>
+        <div className="text-muted" style={{ fontSize: ".75rem" }}>
+          {Currency(item.price)}
+        </div>
       </div>
+      <div>{Currency(item.price * quantity)}</div>
+      <Button
+        variant="outline-danger"
+        size="sm"
+        onClick={() => removeFromBasket(item.id)}
+      >
+        &times;
+      </Button>
     </Stack>
   );
 }
