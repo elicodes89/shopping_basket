@@ -1,5 +1,6 @@
 import { createContext, useContext, ReactNode, useState } from "react";
 import { ShoppingBasket } from "../components/ShoppingBasket";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 type ShoppingBasketProviderProps = {
   children: ReactNode;
@@ -30,7 +31,10 @@ export function useShoppingBasket() {
 export function ShoppingBasketProvider({
   children,
 }: ShoppingBasketProviderProps) {
-  const [basketItems, setBasketItems] = useState<BasketItem[]>([]);
+  const [basketItems, setBasketItems] = useLocalStorage<BasketItem[]>(
+    "basket",
+    []
+  );
   const [isOpen, setIsOpen] = useState(false);
 
   function getItemQuantity(id: number) {
